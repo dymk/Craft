@@ -1,14 +1,15 @@
 #include <stdlib.h>
 #include "map.h"
 
-int hash_int(int key) {
-    key = ~key + (key << 15);
-    key = key ^ (key >> 12);
-    key = key + (key << 2);
-    key = key ^ (key >> 4);
-    key = key * 2057;
-    key = key ^ (key >> 16);
-    return key;
+/* fast hash function with few collisions
+   http://stackoverflow.com/a/10832203/1574697 */
+int hash_int(int k) {
+    k *= 357913941;
+    k ^= k << 24;
+    k += ~357913941;
+    k ^= k >> 31;
+    k ^= k << 31;
+    return k;
 }
 
 int hash(int x, int y, int z) {
